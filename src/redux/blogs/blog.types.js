@@ -1,0 +1,12 @@
+export const getBlogsRequest = "blogs/get/request";
+export const getBlogsSuccess = "blogs/get/success";
+export const getBlogFail = "blogs/get/fail";
+export const postBlogsRequest = "blog/post/request";
+export const postBlogsSuccess = "blog/post/success";
+export const postBlogsFail = "blog/post/fail";
+export const postCommentRequest = "comment/post/request";
+export const postCommentSuccess = "comment/post/success";
+export const postCommentFail = "comment/post/fail";
+export const deleteCommentRequest = "comment/delete/request";
+export const deleteCommentSuccess = "comment/delete/success";
+export const deleteCommentFail = "comment/delete/fail";
