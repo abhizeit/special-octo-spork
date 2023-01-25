@@ -6,12 +6,13 @@ import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import SocketProvider from "./context/SocketContext";
 import { BrowserRouter } from "react-router-dom";
+import theme from "./utils/theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <SocketProvider>
           <App />
         </SocketProvider>

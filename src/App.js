@@ -6,6 +6,9 @@ import AppRoutes from "./routes/AppRoutes";
 function App() {
   const { socket } = useContext(SocketContext);
 
+  useEffect(() => {
+    socket.connect();
+  }, []);
   return <AppRoutes />;
 }
 

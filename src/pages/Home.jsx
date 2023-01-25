@@ -51,21 +51,15 @@ const Home = () => {
           maxH="100vh"
           h="100vh"
           width="100%"
-          overflowY="scroll"
-          padding="4rem"
+          overflowY="auto"
+          padding={["2rem", "3rem", "4rem"]}
           bg="rgb(0 0 0 / 91%)"
           color="whiteAlpha.400"
         >
-          <Box textAlign="center" fontFamily="cursive" fontSize="35px">
+          <Box textAlign="center" fontFamily="monospace" fontSize="35px">
             Daily Blogs
           </Box>
-          <Box
-            padding="2rem"
-            border="1px solid "
-            borderColor="gray.400"
-            borderRadius="15px"
-            bg="blackAlpha.900"
-          >
+          <Box padding="2rem" borderRadius="10px" bg="blackAlpha.900">
             <FormControl>
               <FormLabel>Title</FormLabel>
               <Input
@@ -84,8 +78,10 @@ const Home = () => {
               />
             </FormControl>{" "}
             <Button
+              w="100%"
+              fontSize="20px"
               my={4}
-              colorScheme="messenger"
+              colorScheme="facebook"
               name="article"
               value={post.value}
               onClick={handleArticleSubmit}
@@ -93,14 +89,10 @@ const Home = () => {
               Post Article
             </Button>
           </Box>
-          <Text as="b" fontSize="15px">
-            Read Blogs
-          </Text>
+
           {blogs?.map((blog) => (
             <Box
               bg="blackAlpha.900"
-              borderBottom="1px solid "
-              borderColor="gray.400"
               borderRadius="15px"
               my={5}
               key={blog._id}
@@ -116,12 +108,8 @@ const Home = () => {
               <Text fontSize="20px" color="whiteAlpha.500">
                 {blog.article}
               </Text>
-              <CommentBox id={blog._id} />
-              {blog.comments?.map((comment) => (
-                <Box key={comment._id}>
-                  <Comment comment={comment} blog={blog} userId={user.id} />
-                </Box>
-              ))}
+              {console.log(blog.comments)}
+              <CommentBox id={blog._id} comments={blog.comments} />
             </Box>
           ))}
         </Box>

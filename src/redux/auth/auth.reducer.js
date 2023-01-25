@@ -32,6 +32,7 @@ export const authReducer = (state = initialState, { type, payload }) => {
         ...state,
         token: payload.token,
         rTOken: payload.rToken,
+        isAuth: true,
         isLoading: false,
         isError: false,
         isSignedUp: false,
@@ -50,15 +51,12 @@ export const authReducer = (state = initialState, { type, payload }) => {
       };
     }
     case signupSuccess: {
-      localStorage.setItem("token", payload.token);
-      localStorage.setItem("rToken", payload.rTOken);
       return {
         ...state,
-        token: payload.token,
-        rTOken: payload.rToken,
+        isAuth: false,
         isLoading: false,
         isError: false,
-        isSignedUp: false,
+        isSignedUp: true,
       };
     }
     case signupFail: {

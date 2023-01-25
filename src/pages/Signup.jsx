@@ -8,11 +8,35 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { singup } from "../redux/auth/auth.actions";
+import { useEffect } from "react";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { isLoading, isSignedUp } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const successToast = () =>
+    toast({
+      title: "Sign up Successful.",
+      description: "You've been signed up succesfully!!",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  const failToast = () =>
+    toast({
+      title: "Failed.",
+      description: "Sign up failed!!",
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -20,17 +44,17 @@ const Signup = () => {
       password: "",
     },
     onSubmit: async (values) => {
-      let { data } = await axios.post(
-        `http://localhost:8080/users/signup`,
-        values
+      dispatch(
+        singup({ payload: values, toaster: { successToast, failToast } })
       );
-      if (!data.error) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("rToken", data.rToken);
-        navigate("/");
-      }
     },
   });
+
+  useEffect(() => {
+    if (isSignedUp) {
+      navigate("/login");
+    }
+  }, [isSignedUp, navigate]);
   return (
     <Center h="100vh" w="100vw" bg="black">
       <Box
@@ -52,9 +76,9 @@ const Signup = () => {
             />
           </FormControl>
           <FormControl isRequired>
-            <FormLabel>Email</FormLabel>
+            <FormLabel fontFamily={"monospace"}>Email</FormLabel>
             <Input
-              type="text"
+              type="email"
               name="email"
               onChange={formik.handleChange}
               value={formik.values.email}
@@ -76,6 +100,7 @@ const Signup = () => {
             type="submit"
             bg="black"
             _hover={{ bg: "gray" }}
+            isLoading={isLoading}
           >
             Sign up
           </Button>

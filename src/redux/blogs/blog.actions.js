@@ -16,7 +16,6 @@ import {
 import { axios_instance } from "../../utils/axios_instance";
 
 const api = process.env.REACT_APP_BASE_URI;
-console.log(api);
 
 export const getBlogs = () => async (dispatch) => {
   dispatch({ type: getBlogsRequest });
@@ -31,7 +30,7 @@ export const postComment = (payload) => async (dispatch) => {
   console.log(payload);
   dispatch({ type: postCommentRequest });
   const { data } = await axios_instance.post(
-    `${api}/blogs/comments`,
+    `${api}/comments`,
     { blogId: payload.id, comment: payload.comment },
     {
       headers: {
@@ -52,7 +51,7 @@ export const deleteComment = (payload) => async (dispatch) => {
   dispatch({ type: deleteCommentRequest });
   console.log(payload);
   const { data } = await axios_instance.patch(
-    `${api}/blogs/comments`,
+    `${api}/comments`,
     { blogId: payload.blogId, commentId: payload.commentId },
     {
       headers: {
@@ -71,7 +70,7 @@ export const postBlog = (payload) => async (dispatch) => {
   dispatch({ type: postBlogsRequest });
   console.log("post received");
   const { data } = await axios_instance.post(
-    `${api}/blogs/post`,
+    `${api}/blogs`,
     { title: payload.title, article: payload.article },
     {
       headers: {

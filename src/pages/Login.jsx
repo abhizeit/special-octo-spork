@@ -11,20 +11,40 @@ import {
   Input,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuth, isLoading, isError } = useSelector((store) => store.auth);
+  const { isAuth, isLoading } = useSelector((store) => store.auth);
+  const toast = useToast();
+  const successToast = () =>
+    toast({
+      title: "Login Successful.",
+      description: "You've been logged in succesfully!!",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+  const failToast = (msg) =>
+    toast({
+      title: "Login Failed",
+      description: `${msg}`,
+      status: "error",
+      duration: 3000,
+      isClosable: true,
+    });
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     onSubmit: async (values) => {
-      dispatch(login(values));
+      dispatch(
+        login({ payload: values, toaster: { successToast, failToast } })
+      );
     },
   });
 
@@ -60,10 +80,9 @@ const Login = () => {
             <FormLabel>Password</FormLabel>
             <Input
               name="password"
-              type="text"
+              type="password"
               onChange={formik.handleChange}
               value={formik.values.password}
-              minLength="6"
             />
           </FormControl>
 
@@ -73,6 +92,8 @@ const Login = () => {
             width="100%"
             bg="black"
             _hover={{ bg: "blackAlpha.500" }}
+            isLoading={isLoading}
+            loadingText="Logging in"
           >
             Login
           </Button>

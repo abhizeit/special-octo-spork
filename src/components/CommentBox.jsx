@@ -1,33 +1,27 @@
-import { Box, Button, Input } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spacer } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postComment } from "../redux/blogs/blog.actions";
+import CommentModal from "./CommentModal";
 
-const CommentBox = ({ id }) => {
-  const [comment, setComment] = useState("");
-  const dispatch = useDispatch();
-  const { token } = useSelector((store) => store.auth);
-  function handleComment(e) {
-    setComment(e.target.value);
-  }
-  async function hadleSubmit(e) {
-    e.preventDefault();
-    dispatch(postComment({ comment, id, token }));
-  }
-
+const CommentBox = ({ id, comments }) => {
+  console.log(id);
   return (
     <Box>
-      <form onSubmit={hadleSubmit}>
-        <Input
-          placeholder="Your comment goes here"
-          name="comment"
-          value={comment}
-          onChange={handleComment}
-        />
-        <Button my={4} size="sm" type="submit" colorScheme="messenger">
-          comment
+      <Flex gap="20px">
+        <Button
+          my={4}
+          size="sm"
+          type="submit"
+          colorScheme="facebook"
+          fontSize="20px"
+          w="100%"
+        >
+          Like
         </Button>
-      </form>
+        <Spacer />
+        <CommentModal comments={comments} id={id} />
+      </Flex>
     </Box>
   );
 };
