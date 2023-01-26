@@ -21,10 +21,9 @@ import { Link as ReachLink } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import Sidebar from "../components/Sidebar";
-import Comment from "../components/Comment";
-import CommentBox from "../components/CommentBox";
 import { getBlogs, postBlog } from "../redux/blogs/blog.actions";
 import CommentModal from "../components/CommentModal";
+import Blog from "../components/Blog";
 
 const Home = () => {
   const [post, setPost] = useState({ title: "", article: "" });
@@ -92,31 +91,7 @@ const Home = () => {
           </Box>
 
           {blogs?.map((blog) => (
-            <Box
-              bg="blackAlpha.900"
-              borderRadius="15px"
-              my={5}
-              key={blog._id}
-              padding="2rem"
-              width="100%"
-            >
-              <Text fontSize="30px" fontWeight="600" color="white">
-                {blog.author.name}
-              </Text>
-              <Text fontSize="25px" fontWeight="700" color="whiteAlpha.800">
-                {blog.title}
-              </Text>
-              <Text fontSize="20px" color="whiteAlpha.500">
-                {blog.article}
-              </Text>
-              {console.log(user.id)}
-              <CommentModal
-                comments={blog.comments}
-                blogId={blog._id}
-                blogAuthor={blog.author._id}
-                userId={user.id}
-              />
-            </Box>
+            <Blog blog={blog} user={user} />
           ))}
         </Box>
       </Flex>

@@ -1,18 +1,14 @@
 import {
-  Box,
   Button,
-  IconButton,
   Input,
   InputGroup,
   InputRightElement,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
