@@ -24,13 +24,14 @@ import Sidebar from "../components/Sidebar";
 import Comment from "../components/Comment";
 import CommentBox from "../components/CommentBox";
 import { getBlogs, postBlog } from "../redux/blogs/blog.actions";
+import CommentModal from "../components/CommentModal";
 
 const Home = () => {
   const [post, setPost] = useState({ title: "", article: "" });
-  const user = jwtDecode(localStorage.getItem("token"));
   const dispatch = useDispatch();
   const { blogs, isError, isLoading } = useSelector((store) => store.blog);
   const { isAuth, token } = useSelector((store) => store.auth);
+  const user = jwtDecode(token);
   const handleInputChange = (e) => {
     console.log(e.target.name);
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -108,8 +109,13 @@ const Home = () => {
               <Text fontSize="20px" color="whiteAlpha.500">
                 {blog.article}
               </Text>
-              {console.log(blog.comments)}
-              <CommentBox id={blog._id} comments={blog.comments} />
+              {console.log(user.id)}
+              <CommentModal
+                comments={blog.comments}
+                blogId={blog._id}
+                blogAuthor={blog.author._id}
+                userId={user.id}
+              />
             </Box>
           ))}
         </Box>

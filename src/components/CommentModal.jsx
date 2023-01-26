@@ -17,18 +17,18 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import SingleComment from "./SingleComment";
-import { AiOutlineDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { postComment } from "../redux/blogs/blog.actions";
 
-const CommentModal = ({ comments, id }) => {
+const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
+  console.log(userId);
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.auth);
   const [text, setText] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const handleComment = () => {
-    console.log(id);
-    dispatch(postComment({ comment: text, id, token }));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(postComment({ comment: text, id: blogId, token }));
   };
   return (
     <>
@@ -53,25 +53,27 @@ const CommentModal = ({ comments, id }) => {
           />
           <ModalContent bg="black" color="white">
             <ModalHeader>
-              <InputGroup>
-                <Input
-                  pr="4.5rem"
-                  type="text"
-                  placeholder="your comment goes here"
-                  onChange={(e) => setText(e.target.value)}
-                />
-                <InputRightElement width="4.5rem">
-                  <Button
-                    isDisabled={!text.length}
-                    variant="unstyled"
-                    colorSheme="facebook"
-                    fontWeight="light"
-                    onClick={handleComment}
-                  >
-                    reply
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
+              <form onSubmit={handleSubmit}>
+                <InputGroup>
+                  <Input
+                    pr="4.5rem"
+                    type="text"
+                    placeholder="your comment goes here"
+                    onChange={(e) => setText(e.target.value)}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      isDisabled={!text.length}
+                      variant="unstyled"
+                      colorSheme="facebook"
+                      fontWeight="light"
+                      type="submit"
+                    >
+                      reply
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </form>
             </ModalHeader>
             <ModalBody
               maxH="60vh"
@@ -91,8 +93,10 @@ const CommentModal = ({ comments, id }) => {
             >
               {comments?.map((comment) => (
                 <SingleComment
-                  name={comment.commentAuthor.name}
-                  comment={comment.commentString}
+                  comment={comment}
+                  blogId={blogId}
+                  userId={userId}
+                  blogAuthor={blogAuthor}
                 />
               ))}
             </ModalBody>

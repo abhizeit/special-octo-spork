@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postComment } from "../redux/blogs/blog.actions";
 import CommentModal from "./CommentModal";
 
-const CommentBox = ({ id, comments }) => {
-  console.log(id);
+const CommentBox = ({ blogId, comments, blogAuthor, userId }) => {
   return (
     <Box>
       <Flex gap="20px">
@@ -20,7 +19,6 @@ const CommentBox = ({ id, comments }) => {
           Like
         </Button>
         <Spacer />
-        <CommentModal comments={comments} id={id} />
       </Flex>
     </Box>
   );
