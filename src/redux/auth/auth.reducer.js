@@ -1,4 +1,5 @@
 import {
+  authLogout,
   loginFail,
   loginRequest,
   loginSuccess,
@@ -8,11 +9,11 @@ import {
 } from "./autn.types";
 
 let token = localStorage.getItem("token") || "";
-let rTOken = localStorage.getItem("rToken") || "";
+let rToken = localStorage.getItem("rToken") || "";
 const initialState = {
   isAuth: !!token,
   token,
-  rTOken,
+  rToken,
   isLoading: false,
   isError: false,
   isSignedUp: false,
@@ -27,11 +28,11 @@ export const authReducer = (state = initialState, { type, payload }) => {
     }
     case loginSuccess: {
       localStorage.setItem("token", payload.token);
-      localStorage.setItem("rToken", payload.rTOken);
+      localStorage.setItem("rToken", payload.rToken);
       return {
         ...state,
         token: payload.token,
-        rTOken: payload.rToken,
+        rToken: payload.rToken,
         isAuth: true,
         isLoading: false,
         isError: false,
@@ -63,6 +64,19 @@ export const authReducer = (state = initialState, { type, payload }) => {
       return {
         ...initialState,
         isError: true,
+      };
+    }
+    case authLogout: {
+      localStorage.removeItem("token");
+      localStorage.removeItem("rToken");
+      return {
+        ...state,
+        isAuth: false,
+        token: "",
+        rToken: "",
+        isLoading: false,
+        isError: false,
+        isSignedUp: false,
       };
     }
     default: {

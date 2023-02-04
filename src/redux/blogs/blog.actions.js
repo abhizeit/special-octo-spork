@@ -1,5 +1,12 @@
 import axios from "axios";
 import {
+  addLikeFail,
+  addLikeRequest,
+  addLikeSucees,
+  blogReset,
+  deleteBlogsFail,
+  deleteBlogsRequest,
+  deleteBlogsSuccess,
   deleteCommentFail,
   deleteCommentRequest,
   deleteCommentSuccess,
@@ -12,8 +19,12 @@ import {
   postCommentFail,
   postCommentRequest,
   postCommentSuccess,
+  removeLikeFail,
+  removeLikeRequest,
+  removeLikeSuccess,
 } from "./blog.types";
 import { axios_instance } from "../../utils/axios_instance";
+import socket from "../../utils/socket";
 
 const api = process.env.REACT_APP_BASE_URI;
 
@@ -24,6 +35,44 @@ export const getBlogs = () => async (dispatch) => {
     return dispatch({ type: getBlogFail });
   }
   dispatch({ type: getBlogsSuccess, payload: data });
+};
+
+export const postBlog = (payload) => async (dispatch) => {
+  dispatch({ type: postBlogsRequest });
+  const { data } = await axios_instance.post(
+    `${api}/blogs`,
+    { title: payload.title, article: payload.article },
+    {
+      headers: {
+        authorization: payload.token,
+      },
+    }
+  );
+  if (data.error) {
+    return dispatch({ type: postBlogsFail });
+  }
+  socket.emit("new-blog", data.blog);
+  dispatch({ type: postBlogsSuccess, payload: data.blog });
+};
+
+export const deleteBlog = (payload) => async (dispatch) => {
+  dispatch({ type: deleteBlogsRequest });
+  try {
+    const { data } = await axios.delete(
+      `http://localhost:8080/blogs/${payload.id}`,
+      {
+        headers: {
+          authorization: payload.token,
+        },
+      }
+    );
+    console.log(data);
+    if (!data.error) {
+      dispatch({ type: deleteBlogsSuccess, payload: payload.id });
+    }
+  } catch (e) {
+    dispatch({ type: deleteBlogsFail });
+  }
 };
 
 export const postComment = (payload) => async (dispatch) => {
@@ -66,20 +115,42 @@ export const deleteComment = (payload) => async (dispatch) => {
   dispatch({ type: deleteCommentSuccess, payload: data.blogPost });
 };
 
-export const postBlog = (payload) => async (dispatch) => {
-  dispatch({ type: postBlogsRequest });
-  console.log("post received");
-  const { data } = await axios_instance.post(
-    `${api}/blogs`,
-    { title: payload.title, article: payload.article },
-    {
-      headers: {
-        authorization: payload.token,
-      },
-    }
-  );
-  if (data.error) {
-    return dispatch({ type: postBlogsFail });
+export const likeBlog = (payload) => async (dispatch) => {
+  dispatch({ type: addLikeRequest });
+  try {
+    const { data } = await axios_instance.patch(
+      `${api}/likes/likeBlog`,
+      { blogId: payload.blogId },
+      {
+        headers: {
+          authorization: payload.token,
+        },
+      }
+    );
+    dispatch({ type: addLikeSucees, payload: data.data });
+  } catch (error) {
+    dispatch({ type: addLikeFail });
   }
-  dispatch({ type: postBlogsSuccess, payload: data.blog });
 };
+
+export const likeRemove = (payload) => async (dispatch) => {
+  dispatch({ type: removeLikeRequest });
+  try {
+    const { data } = await axios_instance.patch(
+      `${api}/likes/unlikeBlog`,
+      {
+        blogId: payload.blogId,
+      },
+      {
+        headers: {
+          authorization: payload.token,
+        },
+      }
+    );
+    dispatch({ type: removeLikeSuccess, payload: data.data });
+  } catch (error) {
+    dispatch({ type: removeLikeFail });
+  }
+};
+
+export const resetBlog = () => ({ type: blogReset });

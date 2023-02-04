@@ -24,10 +24,13 @@ import Sidebar from "../components/Sidebar";
 import { getBlogs, postBlog } from "../redux/blogs/blog.actions";
 import CommentModal from "../components/CommentModal";
 import Blog from "../components/Blog";
+import { useContext } from "react";
+import { SocketContext } from "../context/SocketContext";
 
 const Home = () => {
   const [post, setPost] = useState({ title: "", article: "" });
   const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   const { blogs, isError, isLoading } = useSelector((store) => store.blog);
   const { isAuth, token } = useSelector((store) => store.auth);
   const user = jwtDecode(token);
@@ -38,7 +41,9 @@ const Home = () => {
   const handleArticleSubmit = async (e) => {
     e.preventDefault();
     setPost({ title: "", article: "" });
-    dispatch(postBlog({ title: post.title, article: post.article, token }));
+    dispatch(
+      postBlog({ title: post.title, article: post.article, token, socket })
+    );
   };
   useEffect(() => {
     dispatch(getBlogs());
@@ -56,9 +61,6 @@ const Home = () => {
           bg="rgb(0 0 0 / 91%)"
           color="whiteAlpha.400"
         >
-          <Box textAlign="center" fontFamily="monospace" fontSize="35px">
-            Daily Blogs
-          </Box>
           <Box padding="2rem" borderRadius="10px" bg="blackAlpha.900">
             <FormControl>
               <FormLabel>Title</FormLabel>

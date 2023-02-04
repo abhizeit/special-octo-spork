@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { postComment } from "../redux/blogs/blog.actions";
 
 const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
-  console.log(userId);
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.auth);
   const [text, setText] = useState("");
@@ -34,11 +33,17 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
           my={4}
           size="sm"
           type="submit"
-          colorScheme="facebook"
+          variant="unstyled"
           fontSize="20px"
           w="100%"
+          fontWeight="hairline"
+          color="#3b7af7"
         >
-          Comments
+          {comments.length === 1
+            ? "1 Comment"
+            : comments.length > 1
+            ? `${comments.length} Comments`
+            : "Comment"}
         </Button>
 
         <Modal isOpen={isOpen} onClose={onClose}>

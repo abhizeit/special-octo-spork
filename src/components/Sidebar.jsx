@@ -1,11 +1,23 @@
-import { Box, List, ListIcon, ListItem, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  List,
+  ListIcon,
+  ListItem,
+  Text,
+} from "@chakra-ui/react";
 import React from "react";
 import { Link } from "@chakra-ui/react";
 import { Link as ReachLink } from "react-router-dom";
-import { BsFillHeartFill, BsFolderFill, BsStopwatchFill } from "react-icons/bs";
-import { RiBillFill, RiTeamFill } from "react-icons/ri";
+import { BsFillHeartFill, BsFolderFill } from "react-icons/bs";
+import { RiTeamFill } from "react-icons/ri";
 import { AiFillFire } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/auth/auth.actions";
+import { resetBlog } from "../redux/blogs/blog.actions";
 const Sidebar = () => {
+  const dispatch = useDispatch();
   return (
     <Box
       h="100vh"
@@ -17,9 +29,9 @@ const Sidebar = () => {
       left={0}
     >
       <Box p={4}>
-        <Box align="start" p={6}>
-          <Text fontWeight="500" fontSize="40px" mt="2rem" color="white">
-            Blogs
+        <Box align="start" p={6} position="relative">
+          <Text fontWeight="500" fontSize="30px" mt="2rem" color="white">
+            Daily Blogs
           </Text>
           <List color="white" fontWeight="350" fontSize="25px">
             <ListItem my={8}>
@@ -46,6 +58,18 @@ const Sidebar = () => {
             </ListItem>
           </List>
         </Box>
+      </Box>
+      <Box position="absolute" bottom="10" left="10" w="80%">
+        <Button
+          colorScheme="facebook"
+          width="100%"
+          onClick={() => {
+            dispatch(logout());
+            dispatch(resetBlog());
+          }}
+        >
+          Logout
+        </Button>
       </Box>
     </Box>
   );

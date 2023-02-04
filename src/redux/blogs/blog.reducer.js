@@ -1,4 +1,11 @@
 import {
+  addLikeFail,
+  addLikeRequest,
+  addLikeSucees,
+  blogReset,
+  deleteBlogsFail,
+  deleteBlogsRequest,
+  deleteBlogsSuccess,
   deleteCommentFail,
   deleteCommentRequest,
   deleteCommentSuccess,
@@ -11,6 +18,9 @@ import {
   postCommentFail,
   postCommentRequest,
   postCommentSuccess,
+  removeLikeFail,
+  removeLikeRequest,
+  removeLikeSuccess,
 } from "./blog.types";
 
 const intialState = {
@@ -21,6 +31,18 @@ const intialState = {
 
 const blogReducer = (state = intialState, { type, payload }) => {
   switch (type) {
+    case postBlogsFail: {
+      return state;
+    }
+    case postBlogsRequest: {
+      return state;
+    }
+    case postBlogsSuccess: {
+      return {
+        ...state,
+        blogs: [payload, ...state.blogs],
+      };
+    }
     case getBlogsRequest: {
       return {
         ...intialState,
@@ -43,6 +65,24 @@ const blogReducer = (state = intialState, { type, payload }) => {
         blogs: [...payload],
       };
     }
+
+    case deleteBlogsRequest: {
+      return state;
+    }
+
+    case deleteBlogsSuccess: {
+      console.log(payload);
+      const updated = state.blogs.filter((blog) => blog._id !== payload);
+      return {
+        ...state,
+        blogs: updated,
+      };
+    }
+
+    case deleteBlogsFail: {
+      return state;
+    }
+
     case postCommentRequest: {
       return state;
     }
@@ -74,17 +114,52 @@ const blogReducer = (state = intialState, { type, payload }) => {
       };
     }
 
-    case postBlogsFail: {
-      return state;
-    }
-    case postBlogsRequest: {
-      return state;
-    }
-    case postBlogsSuccess: {
+    case addLikeRequest: {
       return {
         ...state,
-        blogs: [payload, ...state.blogs],
+        isLoading: true,
       };
+    }
+    case addLikeSucees: {
+      const updated = state.blogs.map((blog) =>
+        blog._id === payload._id ? payload : blog
+      );
+      return {
+        ...state,
+        isLoading: false,
+        blogs: updated,
+      };
+    }
+    case addLikeFail: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
+    case removeLikeRequest: {
+      return { ...state, isLoading: true };
+    }
+    case removeLikeSuccess: {
+      const updated = state.blogs.map((blog) =>
+        blog._id === payload._id ? payload : blog
+      );
+      return {
+        ...state,
+        isLoading: false,
+        blogs: updated,
+      };
+    }
+    case removeLikeFail: {
+      return {
+        ...state,
+        isError: true,
+        isLoading: false,
+      };
+    }
+
+    case blogReset: {
+      return intialState;
     }
     default: {
       return state;

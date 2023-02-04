@@ -4,7 +4,6 @@ import jwt_decode from "jwt-decode";
 const axios_instance = axios.create();
 axios_instance.interceptors.request.use(
   async (req) => {
-    console.log(req);
     const token = req.headers["authorization"];
     const decoded = jwt_decode(token);
     if (decoded.exp * 1000 <= new Date().getTime()) {

@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  authLogout,
   loginFail,
   loginRequest,
   loginSuccess,
@@ -47,3 +48,5 @@ export const singup =
       toaster.failToast();
     }
   };
+
+export const logout = () => ({ type: authLogout });
