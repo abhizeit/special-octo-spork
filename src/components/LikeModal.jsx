@@ -18,13 +18,13 @@ import { likeBlog, likeRemove } from "../redux/blogs/blog.actions";
 import SingleLike from "./SingleLike";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-const LikeModal = ({ likes, blogId, userId }) => {
+const LikeModal = ({ likes, blogId, userId, likesCount }) => {
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const handleLike = () => {
     likes.find((el) => el._id === userId)
-      ? dispatch(likeRemove({ blogId, token }))
-      : dispatch(likeBlog({ blogId, token }));
+      ? dispatch(likeRemove({ blogId, token, likesCount: likesCount - 1 }))
+      : dispatch(likeBlog({ blogId, token, likesCount: likesCount + 1 }));
   };
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
@@ -40,11 +40,7 @@ const LikeModal = ({ likes, blogId, userId }) => {
         fontWeight="hairline"
         color="#3b7af7"
       >
-        {likes.length > 1
-          ? `${likes.length} Likes`
-          : likes.length === 1
-          ? "1 Like"
-          : "Like"}
+        {likesCount > 0 ? likesCount : null} {likesCount > 1 ? "Likes" : "Like"}
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay

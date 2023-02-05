@@ -120,13 +120,14 @@ export const likeBlog = (payload) => async (dispatch) => {
   try {
     const { data } = await axios_instance.patch(
       `${api}/likes/likeBlog`,
-      { blogId: payload.blogId },
+      { blogId: payload.blogId, likesCount: payload.likesCount },
       {
         headers: {
           authorization: payload.token,
         },
       }
     );
+    console.log(data);
     dispatch({ type: addLikeSucees, payload: data.data });
   } catch (error) {
     dispatch({ type: addLikeFail });
@@ -140,6 +141,7 @@ export const likeRemove = (payload) => async (dispatch) => {
       `${api}/likes/unlikeBlog`,
       {
         blogId: payload.blogId,
+        likesCount: payload.likesCount,
       },
       {
         headers: {

@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Flex, HStack, Icon, Link } from "@chakra-ui/react";
 
 import jwtDecode from "jwt-decode";
@@ -6,20 +7,28 @@ import { useEffect } from "react";
 import { AiFillFire, AiFillHeart, AiFillHome } from "react-icons/ai";
 import { Link as ReachLink } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../components/Sidebar";
-import { getBlogs } from "../redux/blogs/blog.actions";
 import Blog from "../components/Blog";
+import { useState } from "react";
+import { getBlogs } from "../redux/blogs/blog.actions";
 
-const Home = () => {
+const Trending = () => {
+  const { token } = useSelector((store) => store.auth);
+  const { blogs } = useSelector((store) => store.blog);
   const dispatch = useDispatch();
-  const { blogs, isError, isLoading } = useSelector((store) => store.blog);
-  const { isAuth, token } = useSelector((store) => store.auth);
   const user = jwtDecode(token);
+  const [trending, setTrending] = useState(null);
 
   useEffect(() => {
     dispatch(getBlogs());
-  }, [dispatch]);
+  }, []);
+
+  useEffect(() => {
+    const sortedBlogs = blogs.sort((a, b) => b.likesCount - a.likesCount);
+    setTrending(sortedBlogs);
+  }, [blogs]);
+
   return (
     <Box>
       <Flex>
@@ -33,7 +42,7 @@ const Home = () => {
           bg="rgb(0 0 0 / 91%)"
           color="whiteAlpha.400"
         >
-          {blogs?.map((blog) => (
+          {trending?.map((blog) => (
             <Blog blog={blog} user={user} />
           ))}
         </Box>
@@ -67,4 +76,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Trending;

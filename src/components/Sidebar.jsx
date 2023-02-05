@@ -10,14 +10,18 @@ import {
 import React from "react";
 import { Link } from "@chakra-ui/react";
 import { Link as ReachLink } from "react-router-dom";
-import { BsFillHeartFill, BsFolderFill } from "react-icons/bs";
+import { BsFillHeartFill, BsFolderFill, BsPencil } from "react-icons/bs";
 import { RiTeamFill } from "react-icons/ri";
-import { AiFillFire } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { AiFillFire, AiOutlineFire } from "react-icons/ai";
+import { RxAvatar } from "react-icons/rx";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/auth.actions";
 import { resetBlog } from "../redux/blogs/blog.actions";
+import jwtDecode from "jwt-decode";
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const { token } = useSelector((store) => store.auth);
+  const { name } = jwtDecode(token);
   return (
     <Box
       h="100vh"
@@ -35,25 +39,22 @@ const Sidebar = () => {
           </Text>
           <List color="white" fontWeight="350" fontSize="25px">
             <ListItem my={8}>
-              <Link as={ReachLink} to="">
-                <ListIcon as={AiFillFire} mr={4} />
+              <Flex>
+                {" "}
+                <ListIcon as={RxAvatar} mr={3} />
+                <Text>{name} </Text>
+              </Flex>
+            </ListItem>
+            <ListItem my={8}>
+              <Link as={ReachLink} to="/trending">
+                <ListIcon as={AiOutlineFire} mr={4} />
                 Trending
               </Link>
             </ListItem>
+
             <ListItem my={8}>
-              <Link as={ReachLink} to="">
-                <ListIcon as={BsFillHeartFill} mr={4} />
-                Favourites
-              </Link>
-            </ListItem>
-            <ListItem my={8}>
-              <Link as={ReachLink} to="">
-                <ListIcon as={BsFolderFill} mr={3} /> Tasks
-              </Link>
-            </ListItem>
-            <ListItem my={8}>
-              <Link as={ReachLink} to="">
-                <ListIcon as={RiTeamFill} mr={3} /> Saved
+              <Link as={ReachLink} to="/write">
+                <ListIcon as={BsPencil} mr={3} /> Write
               </Link>
             </ListItem>
           </List>

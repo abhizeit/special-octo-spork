@@ -3,6 +3,8 @@ import PrivateRoute from "../hoc/PrivateRoute";
 import Home from "../pages/Home";
 import Signup from "../pages/Signup";
 import Login from "../pages/Login";
+import Write from "../pages/Write";
+import Trending from "../pages/Trending";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -11,6 +13,22 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Home />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/write"
+        element={
+          <PrivateRoute>
+            <Write />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/trending"
+        element={
+          <PrivateRoute>
+            <Trending />
           </PrivateRoute>
         }
       />

@@ -19,23 +19,23 @@ const SingleComment = ({ comment, blogAuthor, blogId, userId }) => {
   return (
     <Box my="10px" _hover={{ bg: "#385898" }} p="5px" borderRadius="10px">
       <Flex gap="10px">
-        <Text fontSize="25px" fontWeight="400">
+        <Text fontSize="20px" fontWeight="400" color="whiteAlpha.800">
           {comment.commentAuthor.name}
         </Text>
         <Spacer />
         {console.log(comment.commentAuthor._id, blogAuthor, userId)}
         {comment.commentAuthor._id === userId || blogAuthor === userId ? (
           <IconButton
+            size="15px"
             variant="unstyled"
             as={AiOutlineDelete}
-            size="xs"
             cursor="pointer"
             onClick={handleClick}
           />
         ) : null}
       </Flex>
 
-      <Text fontSize="15px" fontWeight="200">
+      <Text fontSize="15px" fontWeight="200" color="whiteAlpha.800">
         {comment.commentString}
       </Text>
     </Box>
