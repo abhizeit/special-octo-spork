@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, Icon, Link } from "@chakra-ui/react";
+import { Box, Flex, HStack, Icon, Link, Text } from "@chakra-ui/react";
 
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Sidebar from "../components/Sidebar";
 import { getBlogs } from "../redux/blogs/blog.actions";
 import Blog from "../components/Blog";
+import BottomBar from "../components/BottomBar";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -34,35 +35,11 @@ const Home = () => {
           color="whiteAlpha.400"
         >
           {blogs?.map((blog) => (
-            <Blog blog={blog} user={user} />
+            <Blog key={blog._id} blog={blog} user={user} />
           ))}
         </Box>
       </Flex>
-      <HStack
-        paddingX={6}
-        spacing="auto"
-        position="absolute"
-        bottom="0"
-        h=" 3rem"
-        w="100%"
-        display={["flex", "flex", "none", "none"]}
-      >
-        <Link as={ReachLink} to="">
-          <Icon as={AiFillHome} color="whiteAlpha.400" fontSize="35px" />
-        </Link>
-        <Link as={ReachLink} to="">
-          <Icon as={AiFillFire} color="whiteAlpha.400" fontSize="35px" />
-        </Link>
-        <Link as={ReachLink} to="">
-          <Icon as={AiFillHeart} color="whiteAlpha.400" fontSize="35px" />
-        </Link>
-        <Link as={ReachLink} to="">
-          <Icon as={AiFillHeart} color="whiteAlpha.400" fontSize="35px" />
-        </Link>
-        <Link as={ReachLink} to="">
-          <Icon as={AiFillHeart} color="whiteAlpha.400" fontSize="35px" />
-        </Link>
-      </HStack>
+      <BottomBar />
     </Box>
   );
 };

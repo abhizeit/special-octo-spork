@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { login } from "../redux/auth/auth.actions";
-import { useNavigate } from "react-router-dom";
+import { Link as ReachLink, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import {
   Text,
   VStack,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 
@@ -54,17 +55,17 @@ const Login = () => {
     }
   }, [isAuth]);
   return (
-    <Center h="100vh" w="100vw" bg="black">
+    <Center h="100vh" w="100vw" bg="blackAlpha.900">
       <Box
         padding="2rem"
         width={["80%", "70%", "50%", "40%"]}
         border="3px solid black"
         borderRadius="10px"
-        bg="gray.400"
-        color="white"
+        bg="black"
+        color="whiteAlpha.800"
       >
-        <Text fontSize="3rem" fontWeight="600" textAlign="center" m={4}>
-          Welcome Back!
+        <Text fontSize="2.5rem" fontWeight="600" textAlign="center" m={4}>
+          WECOME BACK
         </Text>
         <form onSubmit={formik.handleSubmit}>
           <FormControl isRequired>
@@ -90,14 +91,19 @@ const Login = () => {
             type="submit"
             mt={4}
             width="100%"
-            bg="black"
-            _hover={{ bg: "blackAlpha.500" }}
+            colorScheme="facebook"
             isLoading={isLoading}
             loadingText="Logging in"
           >
             Login
           </Button>
         </form>
+        <Text mt="10px">
+          New here?{" "}
+          <Link as={ReachLink} to="/signup" color="blue.700">
+            Sign up.
+          </Link>
+        </Text>
       </Box>
     </Center>
   );

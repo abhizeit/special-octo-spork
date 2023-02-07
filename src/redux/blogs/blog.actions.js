@@ -66,9 +66,11 @@ export const deleteBlog = (payload) => async (dispatch) => {
         },
       }
     );
-    console.log(data);
     if (!data.error) {
       dispatch({ type: deleteBlogsSuccess, payload: payload.id });
+      payload.socket.emit("delete-blog", payload.id);
+    } else {
+      dispatch({ type: deleteBlogsFail });
     }
   } catch (e) {
     dispatch({ type: deleteBlogsFail });
@@ -76,23 +78,25 @@ export const deleteBlog = (payload) => async (dispatch) => {
 };
 
 export const postComment = (payload) => async (dispatch) => {
-  console.log(payload);
   dispatch({ type: postCommentRequest });
-  const { data } = await axios_instance.post(
-    `${api}/comments`,
-    { blogId: payload.id, comment: payload.comment },
-    {
-      headers: {
-        authorization: payload.token,
-      },
+  try {
+    const { data } = await axios_instance.post(
+      `${api}/comments`,
+      { blogId: payload.id, comment: payload.comment },
+      {
+        headers: {
+          authorization: payload.token,
+        },
+      }
+    );
+    if (data.error) {
+      return dispatch({ type: postCommentFail });
+    } else if (!data.error) {
+      dispatch({ type: postCommentSuccess, payload: data.blogPost });
+      payload.socket.emit("new-comment", data.blogPost);
     }
-  );
-  console.log(data);
-  if (data.error) {
+  } catch (error) {
     return dispatch({ type: postCommentFail });
-  }
-  if (!data.error) {
-    return dispatch({ type: postCommentSuccess, payload: data.blogPost });
   }
 };
 
@@ -113,6 +117,7 @@ export const deleteComment = (payload) => async (dispatch) => {
     return dispatch({ type: deleteCommentFail });
   }
   dispatch({ type: deleteCommentSuccess, payload: data.blogPost });
+  payload.socket.emit("delete-comment", data.blogPost);
 };
 
 export const likeBlog = (payload) => async (dispatch) => {
@@ -127,8 +132,12 @@ export const likeBlog = (payload) => async (dispatch) => {
         },
       }
     );
-    console.log(data);
-    dispatch({ type: addLikeSucees, payload: data.data });
+    if (!data.error) {
+      dispatch({ type: addLikeSucees, payload: data.data });
+      payload.socket.emit("add-like", data.data);
+    } else {
+      dispatch({ type: addLikeFail });
+    }
   } catch (error) {
     dispatch({ type: addLikeFail });
   }
@@ -149,7 +158,12 @@ export const likeRemove = (payload) => async (dispatch) => {
         },
       }
     );
-    dispatch({ type: removeLikeSuccess, payload: data.data });
+    if (!data.error) {
+      dispatch({ type: removeLikeSuccess, payload: data.data });
+      payload.socket.emit("remove-like", data.data);
+    } else {
+      dispatch({ type: removeLikeFail });
+    }
   } catch (error) {
     dispatch({ type: removeLikeFail });
   }

@@ -1,14 +1,16 @@
 import { Box, Flex, HStack, IconButton, Spacer, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import CommentModal from "./CommentModal";
 import LikeModal from "./LikeModal";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBlog } from "../redux/blogs/blog.actions";
+import { SocketContext } from "../context/SocketContext";
 
 const Blog = ({ blog, user }) => {
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.auth);
+  const { socket } = useContext(SocketContext);
   return (
     <Box
       bg="blackAlpha.900"
@@ -38,7 +40,9 @@ const Blog = ({ blog, user }) => {
             size="sm"
             _hover={{ color: "white" }}
             cursor="pointer"
-            onClick={() => dispatch(deleteBlog({ id: blog._id, token }))}
+            onClick={() =>
+              dispatch(deleteBlog({ id: blog._id, token, socket }))
+            }
           />
         )}
       </Flex>

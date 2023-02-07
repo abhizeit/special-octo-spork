@@ -10,9 +10,8 @@ import {
 import React from "react";
 import { Link } from "@chakra-ui/react";
 import { Link as ReachLink } from "react-router-dom";
-import { BsFillHeartFill, BsFolderFill, BsPencil } from "react-icons/bs";
-import { RiTeamFill } from "react-icons/ri";
-import { AiFillFire, AiOutlineFire } from "react-icons/ai";
+import { BsPencil } from "react-icons/bs";
+import { AiOutlineFire, AiOutlineHome } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../redux/auth/auth.actions";
@@ -37,30 +36,33 @@ const Sidebar = () => {
           <Text fontWeight="500" fontSize="30px" mt="2rem" color="white">
             Daily Blogs
           </Text>
-          <List color="white" fontWeight="350" fontSize="25px">
+          <List color="whiteAlpha.800" fontWeight="400" fontSize="25px">
             <ListItem my={8}>
-              <Flex>
-                {" "}
-                <ListIcon as={RxAvatar} mr={3} />
-                <Text>{name} </Text>
-              </Flex>
+              <Link as={ReachLink} to="/">
+                <ListIcon as={AiOutlineHome} mr={3} size="40px" />
+                Home
+              </Link>
             </ListItem>
             <ListItem my={8}>
               <Link as={ReachLink} to="/trending">
-                <ListIcon as={AiOutlineFire} mr={4} />
+                <ListIcon as={AiOutlineFire} mr={4} size="40px" />
                 Trending
               </Link>
             </ListItem>
 
             <ListItem my={8}>
               <Link as={ReachLink} to="/write">
-                <ListIcon as={BsPencil} mr={3} /> Write
+                <ListIcon as={BsPencil} mr={3} size="40px" /> Write
               </Link>
             </ListItem>
           </List>
         </Box>
       </Box>
       <Box position="absolute" bottom="10" left="10" w="80%">
+        <Flex fontSize="25px" color="whiteAlpha.800" mb="10px">
+          <RxAvatar size="40px" />
+          <Text ml={3}>{name}</Text>
+        </Flex>
         <Button
           colorScheme="facebook"
           width="100%"

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   FormControl,
   FormLabel,
   Input,
@@ -31,37 +32,45 @@ export default function Write() {
   };
 
   return (
-    <Box padding="2rem" borderRadius="10px" bg="blackAlpha.900">
-      <FormControl>
-        <FormLabel>Title</FormLabel>
-        <Input
-          type="text"
-          name="title"
-          color="whiteAlpha.800"
-          value={post.title}
-          onChange={handleInputChange}
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Article</FormLabel>
-        <Textarea
-          color="whiteAlpha.800"
-          name="article"
-          value={post.article}
-          onChange={handleInputChange}
-        />
-      </FormControl>{" "}
-      <Button
-        w="100%"
-        fontSize="20px"
-        my={4}
-        colorScheme="facebook"
-        name="article"
-        value={post.value}
-        onClick={handleArticleSubmit}
+    <Center bg="blackAlpha.900" h="100vh">
+      <Box
+        padding="2rem"
+        borderRadius="10px"
+        width={["80%", "70%", "60%", "50%"]}
+        m="auto"
+        bg="black"
       >
-        Post Article
-      </Button>
-    </Box>
+        <FormControl>
+          <FormLabel color="whiteAlpha.800">Title</FormLabel>
+          <Input
+            type="text"
+            name="title"
+            color="whiteAlpha.800"
+            value={post.title}
+            onChange={handleInputChange}
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel color="whiteAlpha.800">Article</FormLabel>
+          <Textarea
+            color="whiteAlpha.800"
+            name="article"
+            value={post.article}
+            onChange={handleInputChange}
+          />
+        </FormControl>{" "}
+        <Button
+          w="100%"
+          fontSize="20px"
+          my={4}
+          colorScheme="facebook"
+          name="article"
+          value={post.value}
+          onClick={handleArticleSubmit}
+        >
+          Post Article
+        </Button>
+      </Box>
+    </Center>
   );
 }

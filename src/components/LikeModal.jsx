@@ -12,19 +12,25 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { likeBlog, likeRemove } from "../redux/blogs/blog.actions";
 import SingleLike from "./SingleLike";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { SocketContext } from "../context/SocketContext";
 
 const LikeModal = ({ likes, blogId, userId, likesCount }) => {
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   const handleLike = () => {
     likes.find((el) => el._id === userId)
-      ? dispatch(likeRemove({ blogId, token, likesCount: likesCount - 1 }))
-      : dispatch(likeBlog({ blogId, token, likesCount: likesCount + 1 }));
+      ? dispatch(
+          likeRemove({ blogId, token, likesCount: likesCount - 1, socket })
+        )
+      : dispatch(
+          likeBlog({ blogId, token, likesCount: likesCount + 1, socket })
+        );
   };
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (

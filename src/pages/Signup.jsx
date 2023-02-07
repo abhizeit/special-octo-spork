@@ -7,9 +7,11 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Text,
   useToast,
+  Link,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link as ReachLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { singup } from "../redux/auth/auth.actions";
 import { useEffect } from "react";
@@ -55,15 +57,18 @@ const Signup = () => {
     }
   }, [isSignedUp, navigate]);
   return (
-    <Center h="100vh" w="100vw" bg="black">
+    <Center h="100vh" w="100vw" bg="blackAlpha.900">
       <Box
         padding="2rem"
         width={["80%", "70%", "50%", "40%"]}
         border="3px solid black"
         borderRadius="10px"
-        bg="gray.400"
-        color="white"
+        bg="black"
+        color="whiteAlpha.800"
       >
+        <Text fontSize="2.5rem" fontWeight="600" textAlign="center" m={4}>
+          SIGN UP
+        </Text>
         <form onSubmit={formik.handleSubmit}>
           <FormControl isRequired>
             <FormLabel>Full Name</FormLabel>
@@ -97,13 +102,18 @@ const Signup = () => {
             width="100%"
             mt={4}
             type="submit"
-            bg="black"
-            _hover={{ bg: "gray" }}
+            colorScheme="facebook"
             isLoading={isLoading}
           >
             Sign up
           </Button>
         </form>
+        <Text mt="10px">
+          Already a user?{" "}
+          <Link as={ReachLink} to="/login" color="blue.700">
+            Log in.
+          </Link>
+        </Text>
       </Box>
     </Center>
   );

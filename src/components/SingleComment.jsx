@@ -1,17 +1,20 @@
 import { Box, Flex, IconButton, Spacer, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteComment } from "../redux/blogs/blog.actions";
+import { SocketContext } from "../context/SocketContext";
 
 const SingleComment = ({ comment, blogAuthor, blogId, userId }) => {
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   function handleClick() {
     const details = {
       blogId,
       commentId: comment._id,
       token,
+      socket,
     };
     dispatch(deleteComment(details));
   }

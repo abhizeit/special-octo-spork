@@ -11,19 +11,21 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import SingleComment from "./SingleComment";
 import { useDispatch, useSelector } from "react-redux";
 import { postComment } from "../redux/blogs/blog.actions";
+import { SocketContext } from "../context/SocketContext";
 
 const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
   const dispatch = useDispatch();
+  const { socket } = useContext(SocketContext);
   const { token } = useSelector((store) => store.auth);
   const [text, setText] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postComment({ comment: text, id: blogId, token }));
+    dispatch(postComment({ comment: text, id: blogId, token, socket }));
   };
   return (
     <>
