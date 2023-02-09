@@ -1,10 +1,7 @@
-import { Box, Flex, HStack, Icon, Link, Text } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
-
-import { AiFillFire, AiFillHeart, AiFillHome } from "react-icons/ai";
-import { Link as ReachLink } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import Sidebar from "../components/Sidebar";
@@ -14,8 +11,8 @@ import BottomBar from "../components/BottomBar";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { blogs, isError, isLoading } = useSelector((store) => store.blog);
-  const { isAuth, token } = useSelector((store) => store.auth);
+  const { blogs } = useSelector((store) => store.blog);
+  const { token } = useSelector((store) => store.auth);
   const user = jwtDecode(token);
 
   useEffect(() => {

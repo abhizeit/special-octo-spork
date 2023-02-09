@@ -18,7 +18,6 @@ const SingleComment = ({ comment, blogAuthor, blogId, userId }) => {
     };
     dispatch(deleteComment(details));
   }
-  console.log(userId);
   return (
     <Box my="10px" _hover={{ bg: "#385898" }} p="5px" borderRadius="10px">
       <Flex gap="10px">
@@ -26,7 +25,6 @@ const SingleComment = ({ comment, blogAuthor, blogId, userId }) => {
           {comment.commentAuthor.name}
         </Text>
         <Spacer />
-        {console.log(comment.commentAuthor._id, blogAuthor, userId)}
         {comment.commentAuthor._id === userId || blogAuthor === userId ? (
           <IconButton
             size="15px"

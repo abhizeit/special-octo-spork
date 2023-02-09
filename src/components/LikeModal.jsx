@@ -54,7 +54,7 @@ const LikeModal = ({ likes, blogId, userId, likesCount }) => {
           backdropFilter="auto"
           backdropBlur="3px"
         />
-        <ModalContent bg="black" color="white">
+        <ModalContent bg="black" color="white" mx="10px">
           <ModalHeader>
             <Flex>
               <Text>Likes</Text>

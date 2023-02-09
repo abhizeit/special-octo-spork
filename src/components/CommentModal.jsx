@@ -54,7 +54,7 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
             backdropFilter="auto"
             backdropBlur="3px"
           />
-          <ModalContent bg="black" color="white">
+          <ModalContent bg="black" color="white" mx="10px">
             <ModalHeader>
               <form onSubmit={handleSubmit}>
                 <InputGroup>
@@ -96,6 +96,7 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
             >
               {comments?.map((comment) => (
                 <SingleComment
+                  key={comment._id}
                   comment={comment}
                   blogId={blogId}
                   userId={userId}

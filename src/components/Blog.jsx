@@ -1,4 +1,4 @@
-import { Box, Flex, HStack, IconButton, Spacer, Text } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Spacer, Text, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import CommentModal from "./CommentModal";
 import LikeModal from "./LikeModal";
@@ -21,16 +21,15 @@ const Blog = ({ blog, user }) => {
       width="100%"
     >
       <Flex>
-        <HStack>
+        <VStack>
           <Text fontSize="20px" fontWeight="400" color="whiteAlpha.800">
             {blog.author.name}
-            <Text fontSize="12px" color="gray">
-              {new Date(blog.createdAt.toLocaleString()).toLocaleString(
-                "es-CL"
-              )}
-            </Text>
           </Text>
-        </HStack>
+
+          <Text fontSize="12px" color="gray">
+            {new Date(blog.createdAt.toLocaleString()).toLocaleString("es-CL")}
+          </Text>
+        </VStack>
 
         <Spacer />
         {blog.author._id === user.id && (
@@ -55,12 +54,14 @@ const Blog = ({ blog, user }) => {
       </Text>
       <Flex gap="10px">
         <LikeModal
+          key={blog._id + user.id}
           likes={blog.likes}
           blogId={blog._id}
           userId={user.id}
           likesCount={blog.likesCount}
         />
         <CommentModal
+          key={user.id + blog._id}
           comments={blog.comments}
           blogId={blog._id}
           blogAuthor={blog.author._id}

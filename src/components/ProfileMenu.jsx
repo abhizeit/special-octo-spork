@@ -5,7 +5,7 @@ import {
   MenuList,
   MenuItem,
   Icon,
-  Button,
+  Text,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RxAvatar } from "react-icons/rx";
@@ -29,18 +29,18 @@ const ProfileMenu = () => {
         backdropFilter="auto"
         backdropBlur="lg"
       >
-        <MenuItem bg="none">{name}</MenuItem>
         <MenuItem bg="none">
-          <Button
-            variant="unstyled"
-            onClick={() => {
-              dispatch(logout());
-              dispatch(resetBlog());
-            }}
-          >
-            {" "}
-            Logout
-          </Button>
+          <Text>{name}</Text>
+        </MenuItem>
+        <MenuItem
+          bg="none"
+          variant="unstyled"
+          onClick={() => {
+            dispatch(logout());
+            dispatch(resetBlog());
+          }}
+        >
+          Logout
         </MenuItem>
       </MenuList>
     </Menu>

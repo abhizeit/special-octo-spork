@@ -102,7 +102,6 @@ export const postComment = (payload) => async (dispatch) => {
 
 export const deleteComment = (payload) => async (dispatch) => {
   dispatch({ type: deleteCommentRequest });
-  console.log(payload);
   const { data } = await axios_instance.patch(
     `${api}/comments`,
     { blogId: payload.blogId, commentId: payload.commentId },
@@ -112,7 +111,6 @@ export const deleteComment = (payload) => async (dispatch) => {
       },
     }
   );
-  console.log(data);
   if (data.error) {
     return dispatch({ type: deleteCommentFail });
   }
