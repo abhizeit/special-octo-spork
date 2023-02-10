@@ -58,14 +58,11 @@ export const postBlog = (payload) => async (dispatch) => {
 export const deleteBlog = (payload) => async (dispatch) => {
   dispatch({ type: deleteBlogsRequest });
   try {
-    const { data } = await axios.delete(
-      `http://localhost:8080/blogs/${payload.id}`,
-      {
-        headers: {
-          authorization: payload.token,
-        },
-      }
-    );
+    const { data } = await axios.delete(`${api}/blogs/${payload.id}`, {
+      headers: {
+        authorization: payload.token,
+      },
+    });
     if (!data.error) {
       dispatch({ type: deleteBlogsSuccess, payload: payload.id });
       payload.socket.emit("delete-blog", payload.id);
