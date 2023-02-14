@@ -14,24 +14,36 @@ import { SocketContext } from "../context/SocketContext";
 import { postBlog } from "../redux/blogs/blog.actions";
 import Sidebar from "../components/Sidebar";
 import BottomBar from "../components/BottomBar";
+import { imageUpload } from "../utils/imageUpload";
 
 export default function Write() {
   const { token } = useSelector((store) => store.auth);
   const [post, setPost] = useState({ title: "", article: "" });
+  const [file, setFile] = useState(null);
   const { socket } = useContext(SocketContext);
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
-    console.log(e.target.name);
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
   const handleArticleSubmit = async (e) => {
     e.preventDefault();
+    const image = await imageUpload(file);
+    if (image) {
+      dispatch(
+        postBlog({
+          title: post.title,
+          article: post.article,
+          image,
+          token,
+          socket,
+        })
+      );
+    } else {
+      console.log("error happened");
+    }
     setPost({ title: "", article: "" });
-    dispatch(
-      postBlog({ title: post.title, article: post.article, token, socket })
-    );
   };
 
   return (
@@ -63,6 +75,25 @@ export default function Write() {
                 name="article"
                 value={post.article}
                 onChange={handleInputChange}
+              />
+            </FormControl>{" "}
+            <FormControl>
+              <FormLabel color="whiteAlpha.800">Pick an image</FormLabel>
+              <Input
+                type="file"
+                color="whiteAlpha.800"
+                onChange={(e) => setFile(e.target.files[0])}
+                sx={{
+                  "::file-selector-button": {
+                    height: 10,
+                    padding: 0,
+                    mr: 4,
+                    color: "blue",
+                    background: "none",
+                    border: "none",
+                    fontWeight: "bold",
+                  },
+                }}
               />
             </FormControl>{" "}
             <Button

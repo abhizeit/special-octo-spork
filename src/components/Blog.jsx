@@ -1,4 +1,12 @@
-import { Box, Flex, IconButton, Spacer, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  IconButton,
+  Image,
+  Spacer,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import React, { useContext } from "react";
 import CommentModal from "./CommentModal";
 import LikeModal from "./LikeModal";
@@ -25,12 +33,10 @@ const Blog = ({ blog, user }) => {
           <Text fontSize="20px" fontWeight="400" color="whiteAlpha.800">
             {blog.author.name}
           </Text>
-
           <Text fontSize="12px" color="gray">
             {new Date(blog.createdAt.toLocaleString()).toLocaleString("es-CL")}
           </Text>
         </VStack>
-
         <Spacer />
         {blog.author._id === user.id && (
           <IconButton
@@ -46,6 +52,7 @@ const Blog = ({ blog, user }) => {
         )}
       </Flex>
 
+      <Image src={blog.image} objectFit="cover" w="100%" h="300px" />
       <Text fontSize="40px" fontWeight="600" color="whiteAlpha.800">
         {blog.title}
       </Text>

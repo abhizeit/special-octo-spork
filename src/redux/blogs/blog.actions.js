@@ -24,7 +24,6 @@ import {
   removeLikeSuccess,
 } from "./blog.types";
 import { axios_instance } from "../../utils/axios_instance";
-import socket from "../../utils/socket";
 
 const api = process.env.REACT_APP_BASE_URI;
 
@@ -37,23 +36,25 @@ export const getBlogs = () => async (dispatch) => {
   dispatch({ type: getBlogsSuccess, payload: data });
 };
 
-export const postBlog = (payload) => async (dispatch) => {
-  dispatch({ type: postBlogsRequest });
-  const { data } = await axios_instance.post(
-    `${api}/blogs`,
-    { title: payload.title, article: payload.article },
-    {
-      headers: {
-        authorization: payload.token,
-      },
+export const postBlog =
+  ({ title, article, image, socket, token }) =>
+  async (dispatch) => {
+    dispatch({ type: postBlogsRequest });
+    const { data } = await axios_instance.post(
+      `${api}/blogs`,
+      { title, article, image },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    if (data.error) {
+      return dispatch({ type: postBlogsFail });
     }
-  );
-  if (data.error) {
-    return dispatch({ type: postBlogsFail });
-  }
-  socket.emit("new-blog", data.blog);
-  dispatch({ type: postBlogsSuccess, payload: data.blog });
-};
+    socket.emit("new-blog", data.blog);
+    dispatch({ type: postBlogsSuccess, payload: data.blog });
+  };
 
 export const deleteBlog = (payload) => async (dispatch) => {
   dispatch({ type: deleteBlogsRequest });

@@ -26,7 +26,7 @@ const BottomBar = () => {
     <HStack
       paddingX={6}
       spacing="auto"
-      position="absolute"
+      position="fixed"
       bottom="0"
       h=" 3rem"
       w="100%"
