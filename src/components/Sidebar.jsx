@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Link } from "@chakra-ui/react";
-import { Link as ReachLink } from "react-router-dom";
+import { Link as ReachLink, useNavigate } from "react-router-dom";
 import { BsPencil } from "react-icons/bs";
 import { AiOutlineFire, AiOutlineHome } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
@@ -20,7 +20,11 @@ import jwtDecode from "jwt-decode";
 const Sidebar = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.auth);
-  const { name } = jwtDecode(token);
+  const navigate = useNavigate();
+  const name = token ? jwtDecode(token).name : null;
+  const handleClick = () => {
+    token ? dispatch(logout()) : navigate("/login");
+  };
   return (
     <Box
       h="100vh"
@@ -59,19 +63,13 @@ const Sidebar = () => {
         </Box>
       </Box>
       <Box position="absolute" bottom="10" left="10" w="80%">
-        <Flex fontSize="25px" color="whiteAlpha.800" mb="10px">
-          <RxAvatar size="40px" />
-          <Text ml={3}>{name}</Text>
-        </Flex>
-        <Button
-          colorScheme="facebook"
-          width="100%"
-          onClick={() => {
-            dispatch(logout());
-            dispatch(resetBlog());
-          }}
-        >
-          Logout
+        {name && (
+          <Flex fontSize="25px" color="whiteAlpha.800" mb="10px">
+            <RxAvatar size="40px" /> <Text ml={3}>{name}</Text>
+          </Flex>
+        )}
+        <Button colorScheme="facebook" width="100%" onClick={handleClick}>
+          {token ? "Logout" : "Login"}
         </Button>
       </Box>
     </Box>

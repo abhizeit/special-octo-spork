@@ -15,21 +15,26 @@ import { postBlog } from "../redux/blogs/blog.actions";
 import Sidebar from "../components/Sidebar";
 import BottomBar from "../components/BottomBar";
 import { imageUpload } from "../utils/imageUpload";
+import useLoginAlert from "../hooks/loginAlert";
 
 export default function Write() {
   const { token } = useSelector((store) => store.auth);
+  const { isLoading } = useSelector((store) => store.blog);
   const [post, setPost] = useState({ title: "", article: "" });
   const [file, setFile] = useState(null);
   const { socket } = useContext(SocketContext);
   const dispatch = useDispatch();
-
+  const { loginAlert } = useLoginAlert();
   const handleInputChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
   const handleArticleSubmit = async (e) => {
     e.preventDefault();
-    const image = await imageUpload(file);
+    if (!token) {
+      return loginAlert();
+    }
+    const image = (await imageUpload(file)) || null;
     if (image) {
       dispatch(
         postBlog({
@@ -59,28 +64,46 @@ export default function Write() {
             bg="black"
           >
             <FormControl>
-              <FormLabel color="whiteAlpha.800">Title</FormLabel>
+              <FormLabel color="whiteAlpha.800" as="b">
+                Title
+              </FormLabel>
               <Input
+                p="5px"
+                mb="10px"
+                variant="unstyled"
                 type="text"
                 name="title"
                 color="whiteAlpha.800"
                 value={post.title}
                 onChange={handleInputChange}
+                placeholder="Yout title goes here"
               />
             </FormControl>
             <FormControl>
-              <FormLabel color="whiteAlpha.800">Article</FormLabel>
+              <FormLabel color="whiteAlpha.800" as="b">
+                Article
+              </FormLabel>
               <Textarea
+                p="5px"
+                mb="10px"
+                variant="unstyled"
                 color="whiteAlpha.800"
                 name="article"
                 value={post.article}
                 onChange={handleInputChange}
+                placeholder="Your body goes here"
               />
             </FormControl>{" "}
             <FormControl>
-              <FormLabel color="whiteAlpha.800">Pick an image</FormLabel>
+              <FormLabel color="whiteAlpha.800" as="b">
+                Pick an image
+              </FormLabel>
               <Input
+                mb="10px"
+                p="5px"
+                variant="unstyled"
                 type="file"
+                accept="image/*"
                 color="whiteAlpha.800"
                 onChange={(e) => setFile(e.target.files[0])}
                 sx={{
@@ -97,6 +120,8 @@ export default function Write() {
               />
             </FormControl>{" "}
             <Button
+              loadingText="Posting"
+              isLoading={isLoading}
               w="100%"
               fontSize="20px"
               my={4}

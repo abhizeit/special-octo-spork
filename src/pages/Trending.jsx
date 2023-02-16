@@ -15,7 +15,7 @@ const Trending = () => {
   const { token } = useSelector((store) => store.auth);
   const { blogs } = useSelector((store) => store.blog);
   const dispatch = useDispatch();
-  const user = jwtDecode(token);
+  const user = token ? jwtDecode(token) : null;
   const [trending, setTrending] = useState(null);
 
   useEffect(() => {

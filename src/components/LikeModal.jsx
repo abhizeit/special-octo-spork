@@ -18,13 +18,19 @@ import { likeBlog, likeRemove } from "../redux/blogs/blog.actions";
 import SingleLike from "./SingleLike";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { SocketContext } from "../context/SocketContext";
+import useLoginAlert from "../hooks/loginAlert";
 
-const LikeModal = ({ likes, blogId, userId, likesCount }) => {
+const LIkeModal = ({ likes, blogId, userId, likesCount }) => {
   const { token } = useSelector((store) => store.auth);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const { loginAlert } = useLoginAlert();
   const dispatch = useDispatch();
   const { socket } = useContext(SocketContext);
+
   const handleLike = () => {
-    likes.find((el) => el._id === userId)
+    !userId
+      ? loginAlert()
+      : likes.find((el) => el._id === userId)
       ? dispatch(
           likeRemove({ blogId, token, likesCount: likesCount - 1, socket })
         )
@@ -32,7 +38,7 @@ const LikeModal = ({ likes, blogId, userId, likesCount }) => {
           likeBlog({ blogId, token, likesCount: likesCount + 1, socket })
         );
   };
-  const { isOpen, onClose, onOpen } = useDisclosure();
+
   return (
     <>
       <Button
@@ -48,7 +54,7 @@ const LikeModal = ({ likes, blogId, userId, likesCount }) => {
       >
         {likesCount > 0 ? likesCount : null} {likesCount > 1 ? "Likes" : "Like"}
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen}>
         <ModalOverlay
           bg="whiteAlpha.200"
           backdropFilter="auto"
@@ -112,4 +118,4 @@ const LikeModal = ({ likes, blogId, userId, likesCount }) => {
   );
 };
 
-export default LikeModal;
+export default LIkeModal;

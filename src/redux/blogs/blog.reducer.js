@@ -32,15 +32,17 @@ const intialState = {
 const blogReducer = (state = intialState, { type, payload }) => {
   switch (type) {
     case postBlogsFail: {
-      return state;
+      return { ...state, isLoading: false, isError: true };
     }
     case postBlogsRequest: {
-      return state;
+      return { ...state, isLoading: true, isError: false };
     }
     case postBlogsSuccess: {
       return {
         ...state,
         blogs: [payload, ...state.blogs],
+        isLoading: false,
+        isError: false,
       };
     }
     case getBlogsRequest: {

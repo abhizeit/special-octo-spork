@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react";
@@ -13,7 +13,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const { blogs } = useSelector((store) => store.blog);
   const { token } = useSelector((store) => store.auth);
-  const user = jwtDecode(token);
+  const user = token ? jwtDecode(token) : null;
 
   useEffect(() => {
     dispatch(getBlogs());
@@ -27,7 +27,7 @@ const Home = () => {
           h="100vh"
           width="100%"
           overflowY="auto"
-          padding={["2rem", "3rem", "4rem"]}
+          p={["1rem", "1rem", "2rem"]}
           bg="rgb(0 0 0 / 91%)"
           color="whiteAlpha.400"
         >

@@ -12,12 +12,16 @@ import { RxAvatar } from "react-icons/rx";
 import jwtDecode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/auth/auth.actions";
-import { resetBlog } from "../redux/blogs/blog.actions";
+import { useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
+  const navigate = useNavigate();
   const { token } = useSelector((store) => store.auth);
-  const { name } = jwtDecode(token);
+  const name = token ? jwtDecode(token).name : "";
   const dispatch = useDispatch();
+  const handleClick = () => {
+    token ? dispatch(logout()) : navigate("/login");
+  };
   return (
     <Menu>
       <MenuButton variant="unstyled">
@@ -29,18 +33,13 @@ const ProfileMenu = () => {
         backdropFilter="auto"
         backdropBlur="lg"
       >
-        <MenuItem bg="none">
-          <Text>{name}</Text>
-        </MenuItem>
-        <MenuItem
-          bg="none"
-          variant="unstyled"
-          onClick={() => {
-            dispatch(logout());
-            dispatch(resetBlog());
-          }}
-        >
-          Logout
+        {name && (
+          <MenuItem bg="none">
+            <Text>{name}</Text>
+          </MenuItem>
+        )}
+        <MenuItem bg="none" variant="unstyled" onClick={handleClick}>
+          {token ? "Logout" : "Login"}
         </MenuItem>
       </MenuList>
     </Menu>

@@ -16,16 +16,19 @@ import SingleComment from "./SingleComment";
 import { useDispatch, useSelector } from "react-redux";
 import { postComment } from "../redux/blogs/blog.actions";
 import { SocketContext } from "../context/SocketContext";
+import useLoginAlert from "../hooks/loginAlert";
 
 const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
   const dispatch = useDispatch();
-  const { socket } = useContext(SocketContext);
-  const { token } = useSelector((store) => store.auth);
-  const [text, setText] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [text, setText] = useState("");
+  const { socket } = useContext(SocketContext);
+  const { loginAlert } = useLoginAlert();
+  const { token } = useSelector((store) => store.auth);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postComment({ comment: text, id: blogId, token, socket }));
+    if (!userId) return loginAlert();
+    else dispatch(postComment({ comment: text, id: blogId, token, socket }));
   };
   return (
     <>
@@ -68,7 +71,6 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
                     <Button
                       isDisabled={!text.length}
                       variant="unstyled"
-                      colorSheme="facebook"
                       fontWeight="light"
                       type="submit"
                     >
@@ -104,9 +106,12 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
                 />
               ))}
             </ModalBody>
-
             <ModalFooter>
-              <Button variant="ghost" colorScheme="facebook" onClick={onClose}>
+              <Button
+                variant="unstyled"
+                onClick={onClose}
+                _hover={{ color: "blue" }}
+              >
                 Cancel
               </Button>
             </ModalFooter>
