@@ -22,7 +22,7 @@ const ViewBlog = () => {
 
   return (
     <Box minh="100vh" bg="rgba(0,0,0,91%)">
-      <Box w="90%" m="auto" pb="50px">
+      <Box w="90%" m="auto" py="20px " pb="70px">
         {!blog && <LoadingSpinner />}
         {blog && (
           <>

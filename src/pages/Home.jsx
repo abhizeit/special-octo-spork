@@ -1,4 +1,4 @@
-import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 import jwtDecode from "jwt-decode";
 import { useEffect } from "react";

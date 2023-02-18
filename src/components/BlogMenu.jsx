@@ -14,25 +14,22 @@ const BlogMenu = ({ id, token, socket }) => {
     <Menu>
       <MenuButton
         color="whiteAlpha.800"
+        aria-label="blog-menu"
         as={IconButton}
-        icon={<BiDotsVerticalRounded size="md" />}
+        icon={<BiDotsVerticalRounded fontSize="30px" />}
         variant="unstyled"
       />
 
       <MenuList bg="black">
-        <MenuItem bg="transparent">
-          <BlogDeleteModal id={id} token={token} socket={socket} />
-        </MenuItem>
-        <MenuItem bg="transparent">
-          <Button
-            w="100%"
-            variant="unstyled"
-            color="whiteAlpha.800"
-            fontSize="20px"
-          >
-            Edit
-          </Button>
-        </MenuItem>
+        <BlogDeleteModal id={id} token={token} socket={socket} />
+        <Button
+          w="100%"
+          variant="unstyled"
+          color="whiteAlpha.800"
+          fontSize="20px"
+        >
+          Edit
+        </Button>
       </MenuList>
     </Menu>
   );

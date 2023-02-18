@@ -25,6 +25,7 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
   const { socket } = useContext(SocketContext);
   const { loginAlert } = useLoginAlert();
   const { token } = useSelector((store) => store.auth);
+  const { isLoading } = useSelector((store) => store.blog);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!userId) return loginAlert();
@@ -36,6 +37,7 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
         <Button
           onClick={onOpen}
           my={4}
+          mb="0"
           size="sm"
           type="submit"
           variant="unstyled"
@@ -69,6 +71,7 @@ const CommentModal = ({ comments, blogId, userId, blogAuthor }) => {
                   />
                   <InputRightElement width="4.5rem">
                     <Button
+                      isLoading={isLoading}
                       isDisabled={!text.length}
                       variant="unstyled"
                       fontWeight="light"

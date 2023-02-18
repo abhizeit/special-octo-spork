@@ -1,5 +1,4 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 import {
   addLikeFail,
   addLikeRequest,
@@ -40,7 +39,6 @@ export const getBlogs = () => async (dispatch) => {
 export const postBlog =
   ({ title, article, image, socket, token }) =>
   async (dispatch) => {
-    console.log(jwtDecode(token));
     dispatch({ type: postBlogsRequest });
     const { data } = await axios_instance.post(
       `${api}/blogs`,

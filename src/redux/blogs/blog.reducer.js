@@ -73,7 +73,6 @@ const blogReducer = (state = intialState, { type, payload }) => {
     }
 
     case deleteBlogsSuccess: {
-      console.log(payload);
       const updated = state.blogs.filter((blog) => blog._id !== payload);
       return {
         ...state,
@@ -86,10 +85,18 @@ const blogReducer = (state = intialState, { type, payload }) => {
     }
 
     case postCommentRequest: {
-      return state;
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
     }
     case postCommentFail: {
-      return state;
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
     }
     case postCommentSuccess: {
       const updated = state.blogs.map((blog) =>
@@ -97,6 +104,8 @@ const blogReducer = (state = intialState, { type, payload }) => {
       );
       return {
         ...state,
+        isLoading: false,
+        isError: false,
         blogs: updated,
       };
     }
