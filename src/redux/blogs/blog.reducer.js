@@ -52,19 +52,19 @@ const blogReducer = (state = intialState, { type, payload }) => {
         isError: false,
       };
     }
-    case getBlogFail: {
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    }
     case getBlogsSuccess: {
       return {
         ...state,
         isLoading: false,
         isError: false,
         blogs: [...payload],
+      };
+    }
+    case getBlogFail: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
       };
     }
 

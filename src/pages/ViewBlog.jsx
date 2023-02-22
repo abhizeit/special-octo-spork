@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
-import LoadingSpinner from "../components/LoadingSpinner";
 import { useSelector } from "react-redux";
 import LIkeModal from "../components/LIkeModal";
 import CommentModal from "../components/CommentModal";
 import jwtDecode from "jwt-decode";
+import moment from "moment";
 
 const ViewBlog = () => {
   const { id } = useParams();
@@ -17,13 +17,12 @@ const ViewBlog = () => {
   const user = token ? jwtDecode(token) : null;
 
   useEffect(() => {
-    setBlog(blogs.find((b) => b._id === id));
+    blogs && setBlog(blogs.find((b) => b._id === id));
   }, [blogs, id]);
 
   return (
     <Box minh="100vh" bg="rgba(0,0,0,91%)">
       <Box w="90%" m="auto" py="20px " pb="70px">
-        {!blog && <LoadingSpinner />}
         {blog && (
           <>
             <Text
@@ -35,8 +34,8 @@ const ViewBlog = () => {
               {blog.author.name}
             </Text>
             <Text fontSize="1rem" color="gray" mb="10px">
-              {new Date(blog.createdAt.toLocaleString()).toLocaleString(
-                "es-CL"
+              {moment(new Date(blog.createdAt.toLocaleString())).format(
+                " D MMM YYYY, h:mm:ss a"
               )}
             </Text>
             <Image
@@ -65,14 +64,14 @@ const ViewBlog = () => {
             </Text>
             <Flex gap="10px">
               <LIkeModal
-                key={blog._id}
+                key={blog._id + "like"}
                 likes={blog.likes}
                 blogId={blog._id}
                 userId={user ? user.id : null}
                 likesCount={blog.likesCount}
               />
               <CommentModal
-                key={blog._id}
+                key={blog._id + "comment"}
                 comments={blog.comments}
                 blogId={blog._id}
                 blogAuthor={blog.author._id}

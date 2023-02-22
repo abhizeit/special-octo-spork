@@ -44,6 +44,7 @@ const LIkeModal = ({ likes, blogId, userId, likesCount }) => {
       <Button
         onClick={onOpen}
         my={4}
+        mb="0"
         size="sm"
         type="submit"
         variant="unstyled"
@@ -66,6 +67,7 @@ const LIkeModal = ({ likes, blogId, userId, likesCount }) => {
               <Text>Likes</Text>
               <Spacer />
               <IconButton
+                cursor="pointer"
                 onClick={handleLike}
                 variant="unstyled"
                 size="sm"

@@ -10,7 +10,6 @@ import {
   FormLabel,
   Input,
   Text,
-  VStack,
   useToast,
   Link,
 } from "@chakra-ui/react";
@@ -53,7 +52,7 @@ const Login = () => {
     if (isAuth) {
       navigate("/");
     }
-  }, [isAuth]);
+  }, [isAuth, navigate]);
   return (
     <Center h="100vh" w="100vw" bg="blackAlpha.900">
       <Box

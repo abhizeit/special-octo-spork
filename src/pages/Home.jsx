@@ -27,7 +27,7 @@ const Home = () => {
           h="100vh"
           width="100%"
           overflowY="auto"
-          p={["1rem", "1rem", "2rem"]}
+          p={[".5rem", "1rem", "1rem"]}
           bg="rgb(0 0 0 / 91%)"
           color="whiteAlpha.400"
         >

@@ -2,6 +2,7 @@ import { Box, Flex, Image, Link, Spacer, Text, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import CommentModal from "./CommentModal";
 import LIkeModal from "./LIkeModal";
+import moment from "moment";
 
 import { useSelector } from "react-redux";
 import { SocketContext } from "../context/SocketContext";
@@ -11,7 +12,6 @@ import BlogMenu from "./BlogMenu";
 const Blog = ({ blog, user }) => {
   const { token } = useSelector((store) => store.auth);
   const { socket } = useContext(SocketContext);
-
   return (
     <Box
       bg="blackAlpha.900"
@@ -23,12 +23,14 @@ const Blog = ({ blog, user }) => {
       width="100%"
     >
       <Flex>
-        <VStack>
+        <VStack align="start">
           <Text fontSize="20px" fontWeight="400" color="whiteAlpha.800">
             {blog.author.name}
           </Text>
           <Text fontSize="12px" color="gray">
-            {new Date(blog.createdAt.toLocaleString()).toLocaleString("es-CL")}
+            {moment(new Date(blog.createdAt.toLocaleString())).format(
+              "  D MMM YYYY, h:mm:ss a"
+            )}
           </Text>
         </VStack>
         <Spacer />
