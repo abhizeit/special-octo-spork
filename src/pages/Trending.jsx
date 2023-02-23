@@ -10,11 +10,10 @@ import Blog from "../components/Blog";
 import { useState } from "react";
 import { getBlogs } from "../redux/blogs/blog.actions";
 import BottomBar from "../components/BottomBar";
-import LoadingSpinner from "../components/LoadingSpinner";
 
 const Trending = () => {
   const { token } = useSelector((store) => store.auth);
-  const { blogs, isLoading } = useSelector((store) => store.blog);
+  const { blogs } = useSelector((store) => store.blog);
   const dispatch = useDispatch();
   const user = token ? jwtDecode(token) : null;
   const [trending, setTrending] = useState(null);
@@ -41,13 +40,9 @@ const Trending = () => {
           bg="rgb(0 0 0 / 91%)"
           color="whiteAlpha.400"
         >
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : (
-            trending?.map((blog) => (
-              <Blog key={blog._id} blog={blog} user={user} />
-            ))
-          )}
+          {trending?.map((blog) => (
+            <Blog key={blog._id} blog={blog} user={user} />
+          ))}
         </Box>
       </Flex>
       <BottomBar />

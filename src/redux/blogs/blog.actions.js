@@ -22,6 +22,9 @@ import {
   removeLikeFail,
   removeLikeRequest,
   removeLikeSuccess,
+  updateBlogsRequest,
+  updateBlogsSuccess,
+  updateBlogsFail,
 } from "./blog.types";
 import { axios_instance } from "../../utils/axios_instance";
 
@@ -72,6 +75,33 @@ export const deleteBlog = (payload) => async (dispatch) => {
     }
   } catch (e) {
     dispatch({ type: deleteBlogsFail });
+  }
+};
+
+export const updateBlog = (payload) => async (dispatch) => {
+  dispatch({ type: updateBlogsRequest });
+  try {
+    const { data } = await axios_instance.patch(
+      `${api}/blogs/${payload.id}`,
+      {
+        title: payload.title,
+        article: payload.article,
+      },
+      {
+        headers: {
+          authorization: payload.token,
+        },
+      }
+    );
+    if (!data.error) {
+      dispatch({ type: updateBlogsSuccess, payload: data.blog });
+      payload.socket.emit("update-blog", data.blog);
+    } else {
+      dispatch({ type: updateBlogsFail });
+    }
+  } catch (e) {
+    console.log(e.message);
+    dispatch({ type: updateBlogsFail });
   }
 };
 

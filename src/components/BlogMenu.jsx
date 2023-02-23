@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  IconButton,
-  Button,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, IconButton } from "@chakra-ui/react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import BlogDeleteModal from "./BlogDeleteModal";
-const BlogMenu = ({ id, token, socket }) => {
+import BlogEditModal from "./BlogEditModal";
+const BlogMenu = ({ token, socket, blog }) => {
   return (
     <Menu>
       <MenuButton
@@ -21,15 +15,8 @@ const BlogMenu = ({ id, token, socket }) => {
       />
 
       <MenuList bg="black">
-        <BlogDeleteModal id={id} token={token} socket={socket} />
-        <Button
-          w="100%"
-          variant="unstyled"
-          color="whiteAlpha.800"
-          fontSize="20px"
-        >
-          Edit
-        </Button>
+        <BlogDeleteModal id={blog._id} token={token} socket={socket} />
+        <BlogEditModal blog={blog} token={token} socket={socket} />
       </MenuList>
     </Menu>
   );

@@ -10,6 +10,10 @@ export const deleteBlogsRequest = "blog/delete/request";
 export const deleteBlogsSuccess = "blog/delete/success";
 export const deleteBlogsFail = "blog/delete/fail";
 
+export const updateBlogsRequest = "blog/update/request";
+export const updateBlogsSuccess = "blog/update/success";
+export const updateBlogsFail = "blog/update/fail";
+
 export const postCommentRequest = "comment/post/request";
 export const postCommentSuccess = "comment/post/success";
 export const postCommentFail = "comment/post/fail";

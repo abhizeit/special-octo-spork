@@ -9,6 +9,7 @@ import {
   postBlogsSuccess,
   postCommentSuccess,
   removeLikeSuccess,
+  updateBlogsSuccess,
 } from "./redux/blogs/blog.types";
 
 function App() {
@@ -35,7 +36,10 @@ function App() {
     socket.on("remove-like", (data) => {
       dispatch({ type: removeLikeSuccess, payload: data });
     });
-  }, []);
+    socket.on("update-blog", (data) => {
+      dispatch({ type: updateBlogsSuccess, payload: data });
+    });
+  }, [socket, dispatch]);
   return <AppRoutes />;
 }
 

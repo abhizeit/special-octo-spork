@@ -20,7 +20,7 @@ export const login =
       if (data && !data.error) {
         dispatch({ type: loginSuccess, payload: data });
         toaster.successToast();
-      } else {
+      } else if (data.error) {
         dispatch({ type: loginFail });
         toaster.failToast(data.message);
       }

@@ -21,6 +21,9 @@ import {
   removeLikeFail,
   removeLikeRequest,
   removeLikeSuccess,
+  updateBlogsRequest,
+  updateBlogsSuccess,
+  updateBlogsFail,
 } from "./blog.types";
 
 const intialState = {
@@ -81,6 +84,24 @@ const blogReducer = (state = intialState, { type, payload }) => {
     }
 
     case deleteBlogsFail: {
+      return state;
+    }
+
+    case updateBlogsRequest: {
+      return state;
+    }
+
+    case updateBlogsSuccess: {
+      const updated = state.blogs.map((blog) =>
+        blog._id === payload._id ? payload : blog
+      );
+      return {
+        ...state,
+        blogs: updated,
+      };
+    }
+
+    case updateBlogsFail: {
       return state;
     }
 

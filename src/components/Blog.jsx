@@ -35,7 +35,7 @@ const Blog = ({ blog, user }) => {
         </VStack>
         <Spacer />
         {user && blog.author._id === user.id && (
-          <BlogMenu id={blog._id} token={token} socket={socket} />
+          <BlogMenu token={token} socket={socket} blog={blog} />
         )}
       </Flex>
       <Link
