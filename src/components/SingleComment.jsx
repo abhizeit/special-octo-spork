@@ -38,18 +38,10 @@ const SingleComment = ({ comment, blogAuthor, blogId, userId }) => {
             </Tooltip>
           </Box>
           <Spacer />
-          {
-            userId && <CommentMenu handleClick={handleClick} />
-            // (comment.commentAuthor._id === userId || blogAuthor === userId ? (
-            //   <IconButton
-            //     size="15px"
-            //     variant="unstyled"
-            //     as={AiOutlineDelete}
-            //     cursor="pointer"
-            //     onClick={handleClick}
-            //   />
-            // ) : null)
-          }
+          {(userId && comment.commentAuthor._id === userId) ||
+          blogAuthor === userId ? (
+            <CommentMenu handleClick={handleClick} />
+          ) : null}
         </Flex>
 
         <Text fontSize="15px" fontWeight="200" color="whiteAlpha.800">
