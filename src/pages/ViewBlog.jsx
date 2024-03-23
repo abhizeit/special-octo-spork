@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BottomBar from "../components/BottomBar";
 import { useSelector } from "react-redux";
-import LIkeModal from "../components/LIkeModal";
+import LikeModal from "../components/LikeModal";
 import CommentModal from "../components/CommentModal";
 import jwtDecode from "jwt-decode";
 import moment from "moment";
@@ -63,7 +63,7 @@ const ViewBlog = () => {
               {blog.article}
             </Text>
             <Flex gap="10px">
-              <LIkeModal
+              <LikeModal
                 key={blog._id + "like"}
                 likes={blog.likes}
                 blogId={blog._id}

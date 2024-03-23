@@ -20,7 +20,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { SocketContext } from "../context/SocketContext";
 import useLoginAlert from "../hooks/loginAlert";
 
-const LIkeModal = ({ likes, blogId, userId, likesCount }) => {
+const LikeModal = ({ likes, blogId, userId, likesCount }) => {
   const { token } = useSelector((store) => store.auth);
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { loginAlert } = useLoginAlert();
@@ -120,4 +120,4 @@ const LIkeModal = ({ likes, blogId, userId, likesCount }) => {
   );
 };
 
-export default LIkeModal;
+export default LikeModal;

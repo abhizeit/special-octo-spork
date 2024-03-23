@@ -1,7 +1,7 @@
 import { Box, Flex, Image, Link, Spacer, Text, VStack } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import CommentModal from "./CommentModal";
-import LIkeModal from "./LIkeModal";
+import LikeModal from "./LikeModal";
 import moment from "moment";
 
 import { useSelector } from "react-redux";
@@ -60,7 +60,7 @@ const Blog = ({ blog, user }) => {
         </Box>
       </Link>
       <Flex gap="10px">
-        <LIkeModal
+        <LikeModal
           key={blog._id + "32"}
           likes={blog.likes}
           blogId={blog._id}
